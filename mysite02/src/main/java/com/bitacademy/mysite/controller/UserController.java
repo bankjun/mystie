@@ -54,9 +54,9 @@ public class UserController extends HttpServlet {
 				// 방법 1 리다이렉트
 				response.sendRedirect(request.getContextPath() + "/user?a=loginform&result=fail");
 				// 방법 2 포워드
-//				request.setAttribute("result", "fail");
-//				request.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp")
-//				.forward(request, response);
+				// request.setAttribute("result", "fail");
+				// request.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp")
+				// .forward(request, response);
 				
 				return; //이렇게 끝내기
 			}

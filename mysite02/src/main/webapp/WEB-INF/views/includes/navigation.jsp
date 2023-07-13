@@ -1,6 +1,7 @@
+<%@page import="com.bitacademy.mysite.vo.UserVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
- UserVo authUser = (UserVo)session.getAttribute("authUser");
+ 	UserVo authUser = (UserVo)session.getAttribute("authUser");
 %>
 <div id="navigation">
 	<ul>
@@ -11,7 +12,7 @@
 		<% 
 			} else { 
 		%>
-    <li><a href="<%=request.getContextPath()%>/loginform.jsp">로그인</a></li>
+    <li><a href="<%=request.getContextPath()%>/user?a=loginform">로그인</a></li>
 		<% 
 			} 
 		%>

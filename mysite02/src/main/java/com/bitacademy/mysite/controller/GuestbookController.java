@@ -20,6 +20,4 @@ public class GuestbookController extends HttpServlet {
 	}
 
 }
-/*
- * include 만들고 update만들고 dao,vo 가져오고
- */
+
