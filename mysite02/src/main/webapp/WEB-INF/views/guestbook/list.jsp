@@ -17,11 +17,13 @@
 		<div id="content">
 			<div id="guestbook">
 				<form action="${pageContext.request.contextPath }/guestbook" method="post">
-					<input type="hidden" name="a" value="insert">
+					<input type="hidden" name="a" value="add">
+					<h3>방명록</h3>
+					<br>
 					<table>
 						<tr>
-							<td>이름</td><td><input type="text" name="name"></td>
-							<td>비밀번호</td><td><input type="password" name="pass"></td>
+							<td>이름</td><td><input type="text" name="name" value=""></td>
+							<td>비밀번호</td><td><input type="password" name="password" value=""></td>
 						</tr>
 						<tr>
 							<td colspan=4><textarea name="content" id="content"></textarea></td>
@@ -41,15 +43,14 @@
 									<td>[${count - status.index }]</td>
 									<td>${vo.name }</td>
 									<td>${vo.regDate }</td>
-									<td><a href="">삭제</a></td>
+									<td><a href="${pageContext.request.contextPath }/guestbook?a=deleteform&no=${vo.no }">삭제</a></td>
 								</tr>
 								<tr>
-									<td colspan=4>${vo.mesaage, newline, "<br>" }</td>
+									<td colspan=4>${fn:replace(vo.message, newline, "<br>") }</td>
 								</tr>
 							</table> <br>
 						</li>
 					</c:forEach>
-
 				</ul>
 			</div>
 		</div>

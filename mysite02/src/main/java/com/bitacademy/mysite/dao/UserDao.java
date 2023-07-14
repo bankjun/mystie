@@ -124,26 +124,21 @@ public class UserDao {
 			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 			
-			String sql = "update user "
-					+ " set name= ?, password = password(?), gender=?"
-					+ " where no =?;";
+			String sql = "select name, email, gender"
+					+ "	    from user"
+					+ "    where no = ?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, vo.getName() );
-			pstmt.setString(2, vo.getPassword());
-			pstmt.setString(3, vo.getGender());
-			pstmt.setLong(4, vo.getNo());
+			pstmt.setLong(1, vo.getNo());
 			
 			rs = pstmt.executeQuery();
 
 			if(rs.next()) {
-				Long no = rs.getLong(1);
-				String name = rs.getString(2);
-				String password = rs.getString(3);
-				String gender = rs.getString(4);
+				String name = rs.getString(1);
+				String password = rs.getString(2);
+				String gender = rs.getString(3);
 				
 				result = new UserVo();
-				result.setNo(no);
 				result.setName(name);
 				result.setEmail(password);
 				result.setGender(gender);
@@ -169,4 +164,46 @@ public class UserDao {
 		}
 		return result;
 	}
+
+	public void update(UserVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {		
+			Class.forName("org.mariadb.jdbc.Driver");
+						
+			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
+			conn = DriverManager.getConnection(url, "webdb", "webdb");
+						
+			String sql = "update user "
+					+ "      set name= ?, password = password(?), gender= ? "
+					+ " where no =? ";
+			pstmt = conn.prepareStatement(sql);
+						
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getPassword());
+			pstmt.setString(3, vo.getGender());
+			pstmt.setLong(4, vo.getNo());
+			
+			pstmt.executeUpdate();
+			
+			// 5. 결과처리
+			
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패: "+ e);
+		} catch (SQLException e) {
+			System.out.println("Error: "+ e);
+		} finally {// 6. 자원정리
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+	
 }

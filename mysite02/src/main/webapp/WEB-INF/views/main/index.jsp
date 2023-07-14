@@ -11,7 +11,8 @@
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="<%=request.getContextPath() %>/assets/css/main.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/assets/css/main.css" rel="stylesheet" type="text/css">
+			<%-- <%=request.getContextPath() %> --%>
 			<!-- = /mysite02 -->
 </head>
 <body>
@@ -23,7 +24,7 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="<%=request.getContextPath() %>/assets/images/recycle.png">
+					<img id="profile" src="${pageContext.request.contextPath }/assets/images/recycle.png">
 					<%
 						if(authUser != null){ 
 					%>

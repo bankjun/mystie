@@ -48,15 +48,15 @@ public class UserController extends HttpServlet {
 			String password = request.getParameter("password");
 			
 			UserVo authUser = new UserDao().findByEmailAndPassword(email, password);
-			
+			// authUser안에 no가 들어있음
 			if(authUser == null) {
 				// 인증실패 -> 다시 로그인폼으로 보내기
 				// 방법 1 리다이렉트
-				response.sendRedirect(request.getContextPath() + "/user?a=loginform&result=fail");
+				// response.sendRedirect(request.getContextPath() + "/user?a=loginform&result=fail");
 				// 방법 2 포워드
-				// request.setAttribute("result", "fail");
-				// request.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp")
-				// .forward(request, response);
+				 request.setAttribute("result", "fail");
+				 request.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp")
+				 .forward(request, response);
 				
 				return; //이렇게 끝내기
 			}
@@ -88,7 +88,37 @@ public class UserController extends HttpServlet {
 			
 			request.getRequestDispatcher("/WEB-INF/views/user/updateform.jsp")
 			.forward(request, response);
-		} 
+		} else if("update".equals(actionName)){
+			// 접근제어, Access Control(보안 인증 체크)
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
+			
+			String name = request.getParameter("name");
+			String password = request.getParameter("password");
+			String gender = request.getParameter("gender");
+			
+			UserVo vo = new UserVo();
+			vo.setName(name);
+			vo.setPassword(password);
+			vo.setGender(gender);
+			vo.setNo(authUser.getNo());
+			
+			new UserDao().update(vo);
+			
+			
+			response.sendRedirect(request.getContextPath() + "/user?a=updatesuccess");
+			
+		} else if("updatesuccess".equals(actionName)) {
+			request.getRequestDispatcher("/WEB-INF/views/user/updatesuccess.jsp")
+			.forward(request, response);
+		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

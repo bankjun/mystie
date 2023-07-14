@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import com.bitacademy.mysite.vo.GuestbookVo;
 public class GuestbookDao {
 	public List<GuestbookVo> findAll() {
 		List<GuestbookVo> result = new ArrayList<>();
-
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -77,7 +75,6 @@ public class GuestbookDao {
 	}
 	
 	public void insert(GuestbookVo vo) {
-		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -89,13 +86,12 @@ public class GuestbookDao {
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 			// 3. statement준비
 			String sql ="insert into guestbook "
-					+ "       values (null, ?, ?, ?, ?)";
+					+ "       values (null, ?, ?, ?, now())";
 			pstmt = conn.prepareStatement(sql);
 			// 4. 바인딩 
 			pstmt.setString(1,vo.getName());
 			pstmt.setString(2,vo.getPassword());
 			pstmt.setString(3,vo.getMessage());
-			pstmt.setString(4, date.format(java.sql.Timestamp.from(java.time.Instant.now())));
 			
 			// 5. statement실행
 			rs = pstmt.executeQuery();
@@ -123,24 +119,23 @@ public class GuestbookDao {
 		}
 	}
 	
-	public void delete(Long no, String password) {
+	public void deleteByNoAndPassword(Long no, String password) {
 
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			// 1. 클래스로딩
 			Class.forName("org.mariadb.jdbc.Driver");
-			// 2. 연결
+
 			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
-			// 3. statement준비
-			String sql ="delete from guestbook where no= ? and password= ?";
+
+			String sql ="delete from guestbook where no= ? and password= ? ";
 			pstmt = conn.prepareStatement(sql);
-			// 4. 바인딩 
+
 			pstmt.setLong(1, no);
 			pstmt.setString(2, password);
-			// 5. statement실행
+
 			rs = pstmt.executeQuery();
 			
 			// 6. 결과처리할게 있나 -> sql문 실행하면 끝인데22
@@ -167,7 +162,7 @@ public class GuestbookDao {
 		}
 	}
 	
-	public void delete(GuestbookVo vo) {
-		this.delete(vo.getNo(), vo.getPassword());
+	public void deleteByNoAndPassword(GuestbookVo vo) {
+		this.deleteByNoAndPassword(vo.getNo(), vo.getPassword());
 	}
 }
