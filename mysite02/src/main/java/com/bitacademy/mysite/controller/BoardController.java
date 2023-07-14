@@ -8,9 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.bitacademy.mysite.dao.BoardDao;
 import com.bitacademy.mysite.vo.BoardVo;
+import com.bitacademy.mysite.vo.UserVo;
 
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -20,10 +22,23 @@ public class BoardController extends HttpServlet {
 		
 		String actionName = request.getParameter("a");
 		if("writeform".equals(actionName)) {
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
 			
 			request.getRequestDispatcher("/WEB-INF/views/board/writeform.jsp")
 			.forward(request, response);
 		} else if("write".equals(actionName)) {
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			new BoardDao().writeContent(title, content);
 			
 		} else if("view".equals(actionName)) {
 			String boardNo = request.getParameter("no");
@@ -62,5 +77,5 @@ public class BoardController extends HttpServlet {
 
 		doGet(request, response);
 	}
-
+	
 }

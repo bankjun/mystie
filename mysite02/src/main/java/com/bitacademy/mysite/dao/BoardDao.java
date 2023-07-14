@@ -124,5 +124,10 @@ public class BoardDao {
 		}
 		return result;
 	}
+
+	public void writeContent(String title, String content) {
+		
+		
+	}
 	
 }
