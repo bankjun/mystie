@@ -186,14 +186,13 @@ public class BoardDao {
 			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 			// update
-			String updatesql = "update board set o_no = ? "
+			String updatesql = "update board set o_no = o_no+1 "
 						  + "    where g_no = ? "
 					      + "      and o_no >= ?";
 			pstmt = conn.prepareStatement(updatesql);
 			
-			pstmt.setLong(1, (boardVo.getOrderNo()+1l));
-			pstmt.setLong(2, boardVo.getGroupNo());
-			pstmt.setLong(3, boardVo.getOrderNo());			
+			pstmt.setLong(1, boardVo.getGroupNo());
+			pstmt.setLong(2, boardVo.getOrderNo());			
 			pstmt.executeUpdate();
 			
 			// insert 1
@@ -204,7 +203,7 @@ public class BoardDao {
 			pstmt.setString(1, boardVo.getTitle());
 			pstmt.setString(2, boardVo.getContent());
 			pstmt.setLong(3, boardVo.getGroupNo());
-			pstmt.setLong(4, (boardVo.getOrderNo()-1l));
+			pstmt.setLong(4, boardVo.getOrderNo());
 			pstmt.setLong(5, (boardVo.getDepth()+1l));
 			pstmt.setLong(6, boardVo.getWriterNo());
 			
