@@ -29,8 +29,6 @@ public class BoardController extends HttpServlet {
 			if(authUser == null) {
 				response.sendRedirect(request.getContextPath());
 				return;
-				
-				
 			}
 			//////////////////////////////////////////////////////////////////
 			
