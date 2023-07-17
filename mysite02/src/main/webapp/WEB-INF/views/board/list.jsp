@@ -30,7 +30,7 @@
 					</tr>	
 				<c:set var="count" value="${fn: length(list) }"/>
 				<c:forEach items="${list }" var ="list" varStatus="status">
-					<tr>					
+					<tr>
 						<td>${count -status.index }</td>
 						<td style="text-align:left; padding-left:${list.depth * 20}px">
 							<c:if test='${list.depth > 0 }'>

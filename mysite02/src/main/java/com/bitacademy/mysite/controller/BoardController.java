@@ -35,15 +35,73 @@ public class BoardController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/board/writeform.jsp")
 			.forward(request, response);
 		} else if("write".equals(actionName)) {
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
 			String title = request.getParameter("title");
 			String content = request.getParameter("content");
 			
-			new BoardDao().writeContent(title, content);
+			BoardVo boardVo = new BoardVo();
+			boardVo.setTitle(title);
+			boardVo.setContent(content);
+			boardVo.setWriter(authUser.getName());
+			boardVo.setWriterNo(authUser.getNo());
 			
+			new BoardDao().writeContent(boardVo);
+			
+			response.sendRedirect(request.getContextPath()+ "/board");
+		} else if("replyform".equals(actionName)) {
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
+			
+			request.getRequestDispatcher("/WEB-INF/views/board/replyform.jsp")
+			.forward(request, response);
+		} else if("reply".equals(actionName)) {
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
+			// 기존 글 정보 가져오기
+			String boardNo = request.getParameter("no");
+			BoardVo viewVo = new BoardDao().findByBoardNo(Long.parseLong(boardNo));
+			// 답변 
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");			
+			// insert
+			BoardVo boardVo = new BoardVo();
+			boardVo.setTitle(title);
+			boardVo.setContent(content);
+			boardVo.setGroupNo(viewVo.getGroupNo());
+			boardVo.setOrderNo(viewVo.getOrderNo());
+			boardVo.setDepth(viewVo.getDepth());
+			boardVo.setWriter(authUser.getName());
+			boardVo.setWriterNo(authUser.getNo());
+			
+			new BoardDao().replyContent(boardVo);
+			
+			response.sendRedirect(request.getContextPath()+ "/board");
 		} else if("view".equals(actionName)) {
 			String boardNo = request.getParameter("no");
 			BoardVo viewVo = new BoardDao().findByBoardNo(Long.parseLong(boardNo)); // 여기에 글제목,내용, 글쓴유저 번호
-			
+
 			request.setAttribute("viewvo", viewVo);
 			
 			request.getRequestDispatcher("/WEB-INF/views/board/view.jsp")

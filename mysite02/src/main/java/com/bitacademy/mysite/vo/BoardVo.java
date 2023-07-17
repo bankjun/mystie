@@ -5,13 +5,30 @@ public class BoardVo {
 	private String title;
 	private String content;
 	private Long hit;
+	private Long groupNo;
+	private Long orderNo;
 	private String regDate;
 	private Long depth;
 	// join
 	private String writer;
 	private Long writerNo;
 
-	
+	public Long getGroupNo() {
+		return groupNo;
+	}
+
+	public void setGroupNo(Long groupNo) {
+		this.groupNo = groupNo;
+	}
+
+	public Long getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(Long orderNo) {
+		this.orderNo = orderNo;
+	}
+
 	public Long getWriterNo() {
 		return writerNo;
 	}

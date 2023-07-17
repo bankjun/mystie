@@ -24,7 +24,7 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="${pageContext.request.contextPath }/assets/images/recycle.png">
+					<img id="profile" src="${pageContext.request.contextPath }/assets/images/wellcome.jpg" width=100px>
 					<%
 						if(authUser != null){ 
 					%>

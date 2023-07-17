@@ -78,10 +78,11 @@ public class BoardDao {
 			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 
-			String sql =" select a.title, a.contents, b.no "
+			String sql =" select a.title, a.contents, a.g_no, a.o_no, a.depth, b.no "
 					+ "     from board a, user b "
 					+ "    where a.user_no = b.no "
 					+ "      and a.no = ? ";
+			//reply할때 쓰려고 g_no, o_no, depth 추가
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setLong(1, no);
@@ -93,11 +94,17 @@ public class BoardDao {
 				
 				String title = rs.getString(1);
 				String content = rs.getString(2);
-				Long userNo = rs.getLong(3);
+				Long gNo = rs.getLong(3);
+				Long oNo = rs.getLong(4);
+				Long depth = rs.getLong(5);
+				Long userNo = rs.getLong(6);
 				
 				BoardVo vo = new BoardVo();
 				vo.setTitle(title);
 				vo.setContent(content);
+				vo.setGroupNo(gNo);
+				vo.setOrderNo(oNo);
+				vo.setDepth(depth);
 				vo.setWriterNo(userNo);
 				
 				result = vo;
@@ -125,8 +132,102 @@ public class BoardDao {
 		return result;
 	}
 
-	public void writeContent(String title, String content) {
+	public boolean writeContent(BoardVo boardVo) {
+			boolean result = false;
+			
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			try {
+				Class.forName("org.mariadb.jdbc.Driver");
+				
+				String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
+				conn = DriverManager.getConnection(url, "webdb", "webdb");
+				
+				String sql = "insert into board "
+						+ "   values (null, ?, ?, 0, now(), "
+						+ "           ((select max(a.g_no) from board a)+1), 1, 0, ? )";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, boardVo.getTitle());
+				pstmt.setString(2, boardVo.getContent());
+				pstmt.setLong(3, boardVo.getWriterNo());
+				
+				int count = pstmt.executeUpdate(); //여기에 sql을 넣으면 안되고 바인딩이 완성된걸 넘겨줘야함
+				
+				result = count == 1;
+			} catch (ClassNotFoundException e) {
+				System.out.println("드라이버 로딩 실패: "+ e);
+			} catch (SQLException e) {
+				System.out.println("Error: "+ e);
+			} finally {// 7. 자원정리
+				try {
+					if(pstmt != null) {
+						pstmt.close();
+					}
+					if(conn != null) {
+						conn.close();
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			return result;
+	}
+
+	@SuppressWarnings("resource")
+	public boolean replyContent(BoardVo boardVo) {
+		boolean result = false;
 		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			
+			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
+			conn = DriverManager.getConnection(url, "webdb", "webdb");
+			// update
+			String updatesql = "update board set o_no = ? "
+						  + "    where g_no = ? "
+					      + "      and o_no >= ?";
+			pstmt = conn.prepareStatement(updatesql);
+			
+			pstmt.setLong(1, (boardVo.getOrderNo()+1l));
+			pstmt.setLong(2, boardVo.getGroupNo());
+			pstmt.setLong(3, boardVo.getOrderNo());			
+			pstmt.executeUpdate();
+			
+			// insert 1
+			String sql = "insert into board "
+					+ "        values (null, ?, ?, 0, now(), ?, ?, ?, ? )";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, boardVo.getTitle());
+			pstmt.setString(2, boardVo.getContent());
+			pstmt.setLong(3, boardVo.getGroupNo());
+			pstmt.setLong(4, (boardVo.getOrderNo()-1l));
+			pstmt.setLong(5, (boardVo.getDepth()+1l));
+			pstmt.setLong(6, boardVo.getWriterNo());
+			
+			int count = pstmt.executeUpdate();
+			
+			result = count == 1;
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패: "+ e);
+		} catch (SQLException e) {
+			System.out.println("Error: "+ e);
+		} finally {// 7. 자원정리
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return result;
 		
 	}
 	
