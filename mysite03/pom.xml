@@ -7,31 +7,41 @@
 		<artifactId>mysite</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>mysite02</artifactId>
+	<artifactId>mysite03</artifactId>
 	<packaging>war</packaging>
-	<properties>
+	
+	<properties><!--프로퍼티: 이름과 값이 있는 애들-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.build.outputEncoding>UTF-8</project.build.outputEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<!--사용자 지정 프로퍼티, 버전을 이걸로 사용해서 통일할수 있음, 변수같은 느낌-->
+		<org.springframework-version>5.3.26</org.springframework-version>
 	</properties>
 
 	<dependencies>
-<!--MARIA DB-->
+		<!--MARIA DB-->
 		<dependency>
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
 			<version>3.0.8</version>
 		</dependency>
-<!--JSTL-->
+		<!--JSTL-->
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<!--Spring MVC-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-		<finalName>mysite02</finalName>
+		<finalName>mysite03</finalName>
 	</build>
+
 </project>

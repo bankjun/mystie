@@ -107,16 +107,51 @@ public class BoardController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/board/view.jsp")
 			.forward(request, response);
 		} else if("updateform".equals(actionName)) {
-			
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
 			
 			request.getRequestDispatcher("/WEB-INF/views/board/updateform.jsp")
 			.forward(request, response);
 		} else if("update".equals(actionName)) {
 			
+			
 		} else if("deleteform".equals(actionName)) {
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
 			
 			request.getRequestDispatcher("/WEB-INF/views/board/deleteform.jsp")
 			.forward(request, response);
+		} else if("delete".equals(actionName)) {
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
+			
+			Long no = Long.parseLong(request.getParameter("no"));
+			String password = request.getParameter("password");
+			
+			new BoardDao().deleteByNoAndPassword(no, password);
+			
+			response.sendRedirect(request.getContextPath()+"/board");
 		} else {
 			// default action
 			BoardDao dao = new BoardDao();

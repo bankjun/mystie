@@ -16,16 +16,16 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook" class="delete-form">
-				<form method="post" action="${pageContext.request.contextPath }/board">
+				<form method="post" action="${pageContext.request.contextPath }/guestbook">
 				<input type="hidden" name="a" value="delete"> 
-		
-					<input type='hidden' name="no" value="${param.no }"> <!-- no 받게 해줘야함 -->
+				
+					<input type='hidden' name="no" value="${param.no }"> 
 					<label>비밀번호</label> 
 					<input type="password" name="password" value="">
 					<input type="submit" value="확인">
 					
 				</form>
-				<a href="${pageContext.request.contextPath }/board">게시판 리스트</a>
+				<a href="${pageContext.request.contextPath }/guestbook">방명록 리스트</a>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp" />

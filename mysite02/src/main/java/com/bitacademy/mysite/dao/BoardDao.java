@@ -26,7 +26,7 @@ public class BoardDao {
 			String sql =" select a.title, b.name, a.hit, a.reg_date, a.depth, a.no, b.no "
 					+ "     from board a, user b "
 					+ "    where a.user_no = b.no "
-					+ " order by a.g_no desc, a.o_no asc";
+					+ " order by a.g_no desc, a.o_no desc";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -227,7 +227,54 @@ public class BoardDao {
 			}
 		}
 		return result;
+	}
+
+	public boolean deleteByNoAndPassword(Long no, String password) {
+		boolean result = false;
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			Class.forName("org.mariadb.jdbc.Driver");
+			
+			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
+			conn = DriverManager.getConnection(url, "webdb", "webdb");
+			
+			String sql = "delete a "
+					+ "     from board a, user b "
+					+ "    where a.user_no = b.no "
+					+ "      and a.no = ? "
+					+ "      and b.password = password(?)";
+			pstmt = conn.prepareStatement(sql);
+			 
+			pstmt.setLong(1, no);
+			pstmt.setString(2, password);
+			
+			// 5. SQL 실행
+			int count = pstmt.executeUpdate();
+			
+			// 6. 결과처리
+			result = count == 1;
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패: "+ e);
+		} catch (SQLException e) {
+			System.out.println("Error: "+ e);
+		} finally {// 7. 자원정리
+			try {
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	return result;
 		
 	}
+	
+	
 	
 }
