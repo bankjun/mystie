@@ -99,9 +99,10 @@ public class BoardController extends HttpServlet {
 			
 			response.sendRedirect(request.getContextPath()+ "/board");
 		} else if("view".equals(actionName)) {
-			String boardNo = request.getParameter("no");
-			BoardVo viewVo = new BoardDao().findByBoardNo(Long.parseLong(boardNo)); // 여기에 글제목,내용, 글쓴유저 번호
-
+			Long boardNo =  Long.parseLong(request.getParameter("no"));
+			new BoardDao().hitUpdate(boardNo); // 조회수 증가 
+			BoardVo viewVo = new BoardDao().findByBoardNo(boardNo); // 여기에 글제목,내용, 글쓴유저 번호
+			
 			request.setAttribute("viewvo", viewVo);
 			
 			request.getRequestDispatcher("/WEB-INF/views/board/view.jsp")
@@ -116,12 +117,36 @@ public class BoardController extends HttpServlet {
 				return;
 			}
 			//////////////////////////////////////////////////////////////////
+			String boardNo = request.getparameter("no");
+			BoardVo viewVo = new BoardDao().findByBoardNo(Long.parseLong(boardNo));
+			
+			request.setAttribute("viewvo", viewVo);
 			
 			request.getRequestDispatcher("/WEB-INF/views/board/updateform.jsp")
 			.forward(request, response);
 		} else if("update".equals(actionName)) {
+			// 접근제어, Access Control
+			//////////////////////////////////////////////////////////////////
+			HttpSession session = request.getSession();
+			UserVo authUser = (UserVo)session.getAttribute("authUser");
+			if(authUser == null) {
+				response.sendRedirect(request.getContextPath());
+				return;
+			}
+			//////////////////////////////////////////////////////////////////
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			Long boardNo =  Long.parseLong(request.getParameter("no"));
 			
+			BoardVo updateVo = new BoardVo();
+			updateVo.setTitle(title);
+			updateVo.setContent(content);
+			updateVo.setNo(boardNo); // updateform에서 넘겨받아야함
+			updateVo.setWriterNo(authUser.getNo());
 			
+			new BoardDao().updateByBoardNoAndWriterNo(updateVo);
+			
+			response.sendRedirect(request.getContextPath()+ "/board");
 		} else if("deleteform".equals(actionName)) {
 			// 접근제어, Access Control
 			//////////////////////////////////////////////////////////////////
