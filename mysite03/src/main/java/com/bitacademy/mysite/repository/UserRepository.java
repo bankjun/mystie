@@ -55,7 +55,10 @@ public class UserRepository {
 			}
 		}
 	}
-
+	public UserVo findByEmailAndPassword(UserVo vo) {
+		return findByEmailAndPassword(vo.getEmail(), vo.getPassword());
+		
+	}
 	public UserVo findByEmailAndPassword(String email, String password) {
 		UserVo result = null;
 
@@ -113,7 +116,7 @@ public class UserRepository {
 		return result;
 	}
 
-	public UserVo findByNo(UserVo vo) {
+	public UserVo findByNo(Long no) {
 		UserVo result = null;
 
 		Connection conn = null;
@@ -131,7 +134,7 @@ public class UserRepository {
 					+ "    where no = ?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setLong(1, vo.getNo());
+			pstmt.setLong(1, no);
 			
 			rs = pstmt.executeQuery();
 
@@ -207,5 +210,7 @@ public class UserRepository {
 			}
 		}	
 	}
+
+
 	
 }

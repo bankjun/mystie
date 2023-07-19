@@ -21,7 +21,7 @@
 			<div id="content">
 				<div id="site-introduction">
 					<img id="profile" src="${pageContext.request.contextPath }/assets/images/wellcome.jpg" width=100px>
-					<c:if test=${not empty authUser }>
+					<c:if test=${not empty authUser}>
 						<h2>안녕하세요. ${authUser.name } 의  mysite에 오신 것을 환영합니다.</h2>
 					</c:if>
 					<c:otherwise>
