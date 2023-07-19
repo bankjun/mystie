@@ -54,7 +54,7 @@
 				<div class="pager">
 					<ul>
 						<li><a href="">◀</a></li>
-						<li><a href="/mysite/board?p=1">1</a></li>
+						<li><a href="/mysite02/board?p=1">1</a></li>
 						<li class="selected">2</li>
 						<li><a href="">3</a></li>
 						<li>4</li>
