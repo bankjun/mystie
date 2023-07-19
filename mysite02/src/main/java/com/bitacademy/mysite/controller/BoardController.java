@@ -117,7 +117,7 @@ public class BoardController extends HttpServlet {
 				return;
 			}
 			//////////////////////////////////////////////////////////////////
-			String boardNo = request.getparameter("no");
+			String boardNo = request.getParameter("no");
 			BoardVo viewVo = new BoardDao().findByBoardNo(Long.parseLong(boardNo));
 			
 			request.setAttribute("viewvo", viewVo);
@@ -177,6 +177,8 @@ public class BoardController extends HttpServlet {
 			new BoardDao().deleteByNoAndPassword(no, password);
 			
 			response.sendRedirect(request.getContextPath()+"/board");
+		} else if("page".equals(actionName)) {
+			
 		} else {
 			// default action
 			BoardDao dao = new BoardDao();
