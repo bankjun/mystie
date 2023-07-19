@@ -5,7 +5,7 @@
 	version="2.5">
 	<display-name>mysite03</display-name>
 	
-	<!-- Context Parameter(Application 전역변수 -->
+	<!-- Context Parameter(Application 전역변수) -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext.xml</param-value>
