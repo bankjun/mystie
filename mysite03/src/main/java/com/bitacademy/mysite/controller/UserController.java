@@ -13,7 +13,7 @@ import com.bitacademy.mysite.service.UserService;
 import com.bitacademy.mysite.vo.UserVo;
 
 @Controller
-@RequestMapping("/user") // 클래스에 이걸 매핑 해놔서 메소드에서는 /user를 생략해도됨
+@RequestMapping("/user") // 클래스에 이걸 매핑 해놔서 메소드에서는 /user를 생략해도됨, return 에서는 제대로 써야함
 public class UserController {
 	@Autowired
 	private UserService userService;

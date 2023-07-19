@@ -11,7 +11,7 @@
 		</c:when>
 		
 		<c:otherwise>
-   			 <li><a href="${pageContext.request.contextPath }/user?a=loginform">로그인</a></li>		
+   			 <li><a href="${pageContext.request.contextPath }/user/login">로그인</a></li>		
 		</c:otherwise>
 	</c:choose>
 		<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
