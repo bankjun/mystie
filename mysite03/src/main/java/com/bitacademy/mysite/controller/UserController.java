@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+//import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -12,7 +13,7 @@ import com.bitacademy.mysite.service.UserService;
 import com.bitacademy.mysite.vo.UserVo;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user") // 클래스에 이걸 매핑 해놔서 메소드에서는 /user를 생략해도됨
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -81,7 +82,7 @@ public class UserController {
 		////////////////////////////////////////////////////////////
 		Long no = authUser.getNo();
 		UserVo userVo = userService.getUser(no);
-		model.addAttribute("UserVo", userVo);
+		model.addAttribute("userVo", userVo);
 		
 		return "user/update";
 	}
@@ -102,5 +103,12 @@ public class UserController {
 		
 		return "redirect:/user/update";
 	}
+	
+//	@ExceptionHandler(Exception.class)
+//	public String exceptionHandler(Exception ex) {
+//
+//		return "error/exception";
+//	}
 
+	
 }
