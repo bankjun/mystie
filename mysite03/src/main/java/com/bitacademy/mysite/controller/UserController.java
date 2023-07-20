@@ -51,7 +51,7 @@ public class UserController {
 	@Auth
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {
-		// 아규먼트 리저브(argument reserve)
+		// 아규먼트 리솔브(argument resolve)
 		Long no = authUser.getNo();
 		UserVo userVo = userService.getUser(no);
 		model.addAttribute("userVo", userVo);

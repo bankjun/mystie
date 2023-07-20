@@ -32,12 +32,12 @@
     		<bean class="com.bitacademy.mysite.security.AuthInterceptor" />
         </mvc:interceptor>
         <mvc:interceptor>
-        	<mvc:mapping path="/user/auth" /> <!-- login을 -->
-    		<bean class="com.bitacademy.mysite.security.AuthInterceptor" />
+        	<mvc:mapping path="/user/auth" /> <!-- 이 경로로 가면 -->
+    		<bean class="com.bitacademy.mysite.security.LoginInterceptor" /> <!-- 이 bean이 가로챈다. -->
         </mvc:interceptor>
         <mvc:interceptor>
         	<mvc:mapping path="/user/logout" /> 
-    		<bean class="com.bitacademy.mysite.security.AuthInterceptor" />
+    		<bean class="com.bitacademy.mysite.security.LogoutInterceptor" />
         </mvc:interceptor>
     </mvc:interceptors>
 	

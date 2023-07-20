@@ -36,7 +36,7 @@
 							<c:if test='${list.depth > 0 }'>
 								<img src="${pageContext.request.contextPath }/assets/images/reply.png">					
 							</c:if>
-							<a href="${pageContext.request.contextPath }/board?a=view&no=${list.no}">${list.title }</a>							
+							<a href="${pageContext.request.contextPath }/board/view/${list.no}">${list.title }</a>							
 						</td>
 						<td>${list.writer }</td>
 						<td>${list.hit }</td>
@@ -66,7 +66,7 @@
 				
 				<div class="bottom">
 				<c:if test='${not empty authUser }'>
-					<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+					<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
 				</c:if>
 				</div>				
 			</div>
