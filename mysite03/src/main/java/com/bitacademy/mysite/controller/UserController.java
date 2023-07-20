@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.bitacademy.mysite.security.Auth;
 import com.bitacademy.mysite.service.UserService;
 import com.bitacademy.mysite.vo.UserVo;
 
@@ -43,27 +44,16 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(HttpSession session, UserVo vo, Model model) {
-		UserVo authUser = userService.getUser(vo);
-		if(authUser == null) {
-			model.addAttribute("result", "fail");
-			return "user/login";
-		}
-		
-		/*로그인처리*/
-		session.setAttribute("authUser", authUser);
-		return "redirect:/";
-	}
 	/*HttpSession - 기술침투, 이건 안좋음, 나중에 제거*/
+	@Auth// 보안인증
 	@RequestMapping("/logout")
 	public String logout(HttpSession session) {
-		/////////////////// 접근제어 /////////////////////////////////
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		////////////////////////////////////////////////////////////
+//		/////////////////// 접근제어 /////////////////////////////////
+//		UserVo authUser = (UserVo) session.getAttribute("authUser");
+//		if(authUser == null) {
+//			return "redirect:/";
+//		}
+//		////////////////////////////////////////////////////////////
 		
 		/*로그아웃처리*/
 		session.removeAttribute("authUser");
@@ -72,14 +62,10 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		/////////////////// 접근제어 /////////////////////////////////
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		////////////////////////////////////////////////////////////
+	public String update(@AuthUser UserVo authUser, Model model) {
+						// 아규먼트 리저브(argument reserve)
 		Long no = authUser.getNo();
 		UserVo userVo = userService.getUser(no);
 		model.addAttribute("userVo", userVo);
@@ -87,6 +73,21 @@ public class UserController {
 		return "user/update";
 	}
 	
+//	@RequestMapping(value="/update", method=RequestMethod.GET)
+//	public String update(HttpSession session, Model model) {
+//		/////////////////// 접근제어 /////////////////////////////////
+//		UserVo authUser = (UserVo) session.getAttribute("authUser");
+//		if(authUser == null) {
+//			return "redirect:/";
+//		}
+//		////////////////////////////////////////////////////////////
+//		Long no = authUser.getNo();
+//		UserVo userVo = userService.getUser(no);
+//		model.addAttribute("userVo", userVo);
+//		
+//		return "user/update";
+//	}
+	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public String update(HttpSession session, UserVo vo) {
 		/////////////////// 접근제어 /////////////////////////////////
@@ -103,12 +104,18 @@ public class UserController {
 		
 		return "redirect:/user/update";
 	}
-	
-//	@ExceptionHandler(Exception.class)
-//	public String exceptionHandler(Exception ex) {
-//
-//		return "error/exception";
-//	}
-
-	
 }
+//@RequestMapping(value="/login", method=RequestMethod.POST)
+//public String login(HttpSession session, UserVo vo, Model model) {
+//	/////////////////// 접근제어 /////////////////////////////////
+//	UserVo authUser = userService.getUser(vo);
+//	if(authUser == null) {
+//		model.addAttribute("result", "fail");
+//		return "user/login";
+//	}
+//	////////////////////////////////////////////////////////////
+//	
+//	/*로그인처리*/
+//	session.setAttribute("authUser", authUser);
+//	return "redirect:/";
+//}

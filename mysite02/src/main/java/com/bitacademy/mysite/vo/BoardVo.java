@@ -9,6 +9,7 @@ public class BoardVo {
 	private Long orderNo;
 	private String regDate;
 	private Long depth;
+//	private Long pageNo;
 	// join
 	private String writer;
 	private Long writerNo;

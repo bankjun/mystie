@@ -28,7 +28,7 @@ public class BoardDao {
 					+ "    where a.user_no = b.no "
 					+ " order by a.g_no desc, a.o_no desc";
 			pstmt = conn.prepareStatement(sql);
-
+ 
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

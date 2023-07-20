@@ -16,6 +16,26 @@
 	<!-- 서블릿 컨테이너의 디폴트 서블릿 위임 핸들러 -->
 	<mvc:default-servlet-handler />
 	
+
+	<!-- Interceptors -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+        	<mvc:mapping path="/**" /> <!-- 모든경로 -->
+        	<mvc:exclude-mapping path="/user/auth"/>
+        	<mvc:exclude-mapping path="/user/logout"/>
+        	<mvc:exclude-mapping path="/assets/**"/> <!-- assets밑의 모든 경로는 제외 -->
+    		<bean class="com.bitacademy.mysite.security.AuthInterceptor" />
+        </mvc:interceptor>
+        <mvc:interceptor>
+        	<mvc:mapping path="/user/auth" /> <!-- login을 -->
+    		<bean class="com.bitacademy.mysite.security.AuthInterceptor" />
+        </mvc:interceptor>
+        <mvc:interceptor>
+        	<mvc:mapping path="/user/logout" /> 
+    		<bean class="com.bitacademy.mysite.security.AuthInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+	
 	<!-- ViewResolver 설정 -->
 	<!-- 앞뒤에 기술 없애줌 -->
 	<bean id="viewResolver"
