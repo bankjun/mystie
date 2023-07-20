@@ -3,10 +3,13 @@
 <configuration>
 	<!-- 전역설정들 -->
 	<typeAliases>
+		<typeAlias type="com.bitacademy.mysite.vo.GuestbookVo" alias="guestbookvo"/>
+		<typeAlias type="com.bitacademy.mysite.vo.UserVo" alias="uservo"/>
 	</typeAliases>
 	
 	<!-- 매퍼설정 -->
 	<mappers>
 		<mapper resource="mybatis/mappers/guestbook.xml" />
+		<mapper resource="mybatis/mappers/user.xml" />
 	</mappers>
 </configuration>

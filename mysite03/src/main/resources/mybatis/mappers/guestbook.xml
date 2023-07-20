@@ -4,7 +4,7 @@
 <!-- 이 안에 sql을 만들면됨 -->
 <mapper namespace="guestbook">
 						  <!-- return되는 타입 -->
-	<select id="findAll" resultType="com.bitacademy.mysite.vo.GuestbookVo">
+	<select id="findAll" resultType="guestbookvo">
 		<!-- contentdata, <, > 이런 걸 문자로 인식하게 해줌 -->
 		<![CDATA[
 			select no,
@@ -17,11 +17,17 @@
 	  	]]>
 	</select>
 	
-	<insert id="insert" parameterType="com.bitacademy.mysite.vo.GuestbookVo">
+	<insert id="insert" parameterType="guestbookvo">
 		<![CDATA[
 		insert
 		  into guestbook
 		values (null, #{name }, #{password }, #{message }, now())
 		]]>
 	</insert>
+	
+	<delete id="deleteByNoAndPassword" parameterType= "map">
+		<![CDATA[
+			delete from guestbook where no= #{no } and password= #{password } 
+		]]>
+	</delete>
 </mapper>

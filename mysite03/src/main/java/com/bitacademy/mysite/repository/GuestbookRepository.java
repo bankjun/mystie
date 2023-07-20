@@ -1,14 +1,8 @@
 package com.bitacademy.mysite.repository;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import javax.sql.DataSource;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +13,7 @@ import com.bitacademy.mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookRepository {
-	@Autowired
-	private DataSource dateSource;
+
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -33,46 +26,12 @@ public class GuestbookRepository {
 	}
 	
 	public void deleteByNoAndPassword(Long no, String password) {
-
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-
-			String url = "jdbc:mariadb://192.168.0.150:3306/webdb?charset=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-
-			String sql ="delete from guestbook where no= ? and password= ? ";
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setLong(1, no);
-			pstmt.setString(2, password);
-
-			rs = pstmt.executeQuery();
-			
-			// 6. 결과처리할게 있나 -> sql문 실행하면 끝인데22
-			System.out.println("delete 성공");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패: "+ e);
-		} catch (SQLException e) {
-			System.out.println("Error: "+ e);
-		} finally {// 6. 자원정리
-			try {
-				
-				if(rs != null) {
-					rs.close();
-				}
-				if(pstmt != null) {
-					pstmt.close();
-				}
-				if(conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+		// 두개의 파라메터를 보낼 수 없음 -> 그래서 객체이용해야함
+		// 만약 Vo가 없다면 map을 사용할수 있다.
+		Map<String , Object> map = new HashMap<>();
+		map.put("no", no);
+		map.put("password", password);
+		sqlSession.delete("guestbook.deleteByNoAndPassword", map);
 	}
 	
 	public void deleteByNoAndPassword(GuestbookVo vo) {
