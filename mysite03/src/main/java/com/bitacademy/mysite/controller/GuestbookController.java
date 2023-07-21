@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.bitacademy.mysite.security.Auth;
 import com.bitacademy.mysite.service.GuestbookService;
 import com.bitacademy.mysite.vo.GuestbookVo;
 

@@ -42,7 +42,8 @@
 						<td>${list.hit }</td>
 						<td>${list.regDate }</td>
 						<c:if test='${authUser.no == list.writerNo}'>
-						<td><a href="${pageContext.request.contextPath }/board?a=deleteform&no=${list.no}" class="del">삭제</a></td>
+						<td><a href="${pageContext.request.contextPath }/board/delete/${list.no}" class="del">삭제</a></td>
+						
 						</c:if>					
 					</tr>																				
 					

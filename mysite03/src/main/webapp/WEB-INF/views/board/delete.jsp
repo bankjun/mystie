@@ -16,10 +16,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="guestbook" class="delete-form">
-				<form method="post" action="${pageContext.request.contextPath }/board">
-				<input type="hidden" name="a" value="delete"> 
+				<form method="post" action="${pageContext.request.contextPath }/board/delete">
 		
-					<input type='hidden' name="no" value="${param.no }"> <!-- no 받게 해줘야함 -->
+					<input type='hidden' name="no" value="${boardno }"> <!-- no 받게 해줘야함 -->
 					<label>비밀번호</label> 
 					<input type="password" name="password" value="">
 					<input type="submit" value="확인">

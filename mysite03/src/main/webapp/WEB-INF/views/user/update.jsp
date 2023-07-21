@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="com.bitacademy.mysite.vo.UserVo"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +20,6 @@
 					<input id="name" name="name" type="text" value="${userVo.name }">
 
 					<label class="block-label" for="email">이메일</label>
-					
 					<h4>${userVo.email }</h4>
 					
 					<label class="block-label">패스워드</label>

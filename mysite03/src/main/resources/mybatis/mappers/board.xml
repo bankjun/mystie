@@ -37,8 +37,18 @@
 		<![CDATA[
 			insert into board 
 			     values (null, #{title}, #{content}, 0, now(),
-					    ((select max(a.g_no) from board a)+1), 1, 0, #{writerNo} )
+					    ((select max(a.g_no) from board a)+1), 1, 0, #{writerNo})
 		]]>
 	</insert>
+	
+	<delete id="deleteByNoAndPassword" parameterType="map">
+		<![CDATA[
+			delete a 
+		      from board a, user b
+			 where a.user_no = b.no
+			   and a.no = #{no} 
+		       and b.password = password(#{password})
+		]]>
+	</delete>
 
 </mapper>

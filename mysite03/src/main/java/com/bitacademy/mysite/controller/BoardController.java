@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bitacademy.mysite.security.Auth;
 import com.bitacademy.mysite.security.AuthUser;
@@ -43,5 +44,32 @@ public class BoardController{
 		vo.setWriter(authUser.getName());
 		boardService.addBoardContent(vo);
 		return "redirect:/board";
+	}
+	// DELETE FORM
+	@Auth
+	@RequestMapping(value="/delete/{no}", method = RequestMethod.GET)
+	public String delete(@PathVariable("no")Long no, Model model) {
+		model.addAttribute("boardno", no);
+		return "/board/delete";
+	}
+	// DELETE
+	@Auth
+	@RequestMapping(value="/delete", method = RequestMethod.POST)
+	public String delete(Long no, String password) {
+		boardService.deleteBoard(no, password);
+		return "redirect:/board";
+	}
+	// UPDATE FORM
+	@Auth
+	@RequestMapping("/update")
+	public String update() {
+		return"/board/update";
+	}
+	// UPDATE
+	@Auth
+	@RequestMapping(value="/update/{no}", method=RequestMethod.POST)
+	public String update(@PathVariable("no")Long no, String title, String content) {
+		
+		return"redirect:/board/view{"+no+"}";
 	}
 }
