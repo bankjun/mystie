@@ -51,6 +51,23 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+
+		<!--Spring Context, 원래는 이거 하나만 가져오면 그거와 의존관계에 있는 라이브러리들을 같이 가져옴, 근데 이건보여주기위해 다른것도 명시함-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<!--<version>5.3.26</version>-->
+
+		<!-- JCL 제외 -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-jcl</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<!--Spring MVC-->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -64,6 +81,17 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
+		<!--logback-->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.7.36</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.11</version>
+		</dependency>
 	</dependencies>
 
 	<build>

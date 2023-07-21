@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<!-- formating: 시간, 쓰레드, 레벨, 로거(5개), 메시지 -->
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/mysite-logs/exception.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+		<!-- 로그메시지의 파일 크기가 50kb가 넘으면 압축해서 저장해라, 압축파일은 1~10까지만 유지해라 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>/mysite-logs/exception.%i.log.zip</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<!-- exception이 모이는 패키지를 설정해줌 -->
+	<logger name="com.bitacademy.mysite.exception" level="error" additivity="false">
+            <appender-ref ref="fileAppender" />
+            <appender-ref ref="consoleAppender" />
+    </logger> 
+	
+	<!-- 루트(글로벌) 로거 -->
+	<root level="debug">
+		<appender-ref ref="consoleAppender" />
+	</root>
+
+</configuration>
