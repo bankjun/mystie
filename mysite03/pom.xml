@@ -67,6 +67,12 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!--Spring Aspect-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
 
 		<!--Spring MVC-->
 		<dependency>
