@@ -21,10 +21,11 @@
 	
 	<select id="findByBoardNo" resultType="boardvo" parameterType="Long">
 		<![CDATA[
-			select a.title,
+			select a.no,
+				   a.title,
 			       a.contents as content, 
-			       a.g_no, 
-			       a.o_no, 
+			       a.g_no as groupNo, 
+			       a.o_no as orderNo, 
 			       a.depth, 
 			       b.no as writerNo
 			  from board a, user b 
@@ -50,5 +51,38 @@
 		       and b.password = password(#{password})
 		]]>
 	</delete>
+	
+	<update id="updateByBoardNo" parameterType="boardvo">
+		<![CDATA[
+			update board 
+			   set title = #{title}, contents = #{content} 
+			 where no= #{no}
+		]]>
+	</update>
+	
+	<update id="replyContent" parameterType="boardvo">
+		<![CDATA[
+			update board 
+			   set o_no = o_no+1
+			 where g_no = #{groupNo}
+			   and o_no >= #{orderNo}
+		]]>
+	</update>
+	
+	<insert id="addReplyContent" parameterType="boardvo">
+		<![CDATA[
+			insert into board
+				       values (null, #{title}, #{content}, 0, now(), #{groupNo}, #{orderNo}, #{depth}+1, #{writerNo} )
+		]]>
+	</insert>
+	
+	<update id="updateHit" parameterType="Long">
+		<![CDATA[	
+			update board 
+			   set hit=(hit+1) 
+			 where no= #{no}
+		]]> 
+	</update>
+	
 
 </mapper>

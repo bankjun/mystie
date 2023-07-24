@@ -28,7 +28,9 @@ public class BoardController{
 	// VIEW
 	@RequestMapping("/view/{no}")
 	public String view(@PathVariable("no")Long no, Model model) {
+		boardService.updateHit(no);
 		model.addAttribute("viewvo", boardService.getBoardview(no));
+		model.addAttribute("boardno", no);
 		return "/board/view";
 	}
 	// WRITE FORM
@@ -39,7 +41,7 @@ public class BoardController{
 	// WRITE
 	@Auth
 	@RequestMapping(value="/write", method = RequestMethod.POST)
-	public String wirte(@AuthUser UserVo authUser, BoardVo vo) {
+	public String wirte(@AuthUser UserVo authUser, BoardVo vo) { // POST로 vo로 받으면 알아서 형식 맞춰서 들어옴
 		vo.setWriterNo(authUser.getNo());
 		vo.setWriter(authUser.getName());
 		boardService.addBoardContent(vo);
@@ -61,18 +63,38 @@ public class BoardController{
 	}
 	// UPDATE FORM
 	@Auth
-	@RequestMapping("/update")
-	public String update() {
+	@RequestMapping("/update/{no}")
+	public String update(Model model,@PathVariable("no")Long no) {
+		model.addAttribute("boardVo", boardService.getBoardview(no));
+		
 		return"/board/update";
 	}
 	// UPDATE
 	@Auth
-	@RequestMapping(value="/update/{no}", method=RequestMethod.POST)
-	public String update(@PathVariable("no")Long no, String title, String content) {
-		
-		return"redirect:/board/view{"+no+"}";
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(BoardVo vo) {
+		boardService.updateBoard(vo);
+		return"redirect:/board/view/"+vo.getNo();
 	}
 	// REPLY FORM
-	
-	// REPLY 
+	@Auth
+	@RequestMapping("/reply/{no}")
+	public String reqly(@PathVariable("no")Long no, Model model) {
+		model.addAttribute("boardno", no);
+		return "/board/reply";
+	}
+	// REPLY
+	@Auth
+	@RequestMapping(value="/reply", method=RequestMethod.POST)
+	public String reply(@AuthUser UserVo authUser, BoardVo vo) {// no,title,content
+		BoardVo replyVo = boardService.getBoardview(vo.getNo());
+		
+		replyVo.setWriterNo(authUser.getNo()); // 글쓴이 = 현재로그인한애
+		replyVo.setTitle(vo.getTitle());	   // 답글제목
+		replyVo.setContent(vo.getContent());   // 답글내용
+		
+		boardService.addReplyContent(replyVo);
+		
+		return "redirect:/board";
+	}
 }

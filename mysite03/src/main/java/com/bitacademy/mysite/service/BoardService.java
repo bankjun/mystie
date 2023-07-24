@@ -16,7 +16,7 @@ public class BoardService {
 	public List<BoardVo> getBoardList() {
 		return boardRepository.findAll();
 	}
-	// view
+	// view, update, reply
 	public BoardVo getBoardview(Long no) {
 		return boardRepository.findByBoardNo(no);
 	}
@@ -29,6 +29,17 @@ public class BoardService {
 	public void deleteBoard(Long no, String password) {
 		boardRepository.deleteByNoAndPassword(no, password);
 	}
-	
+	// update
+	public void updateBoard(BoardVo vo) {
+		boardRepository.updateByBoardNo(vo);
+	}
+	// reply
+	public void addReplyContent(BoardVo replyVo) {
+		boardRepository.replyContent(replyVo);
+	}
+	// hit
+	public void updateHit(Long no) {
+		boardRepository.updateHit(no);
+	}
 	
 }

@@ -21,7 +21,9 @@
 					</tr>
 					<tr>
 						<td class="label">제목</td>
-						<td>${viewvo.title }</td>
+						<td>
+							${viewvo.title }
+						</td>
 					</tr>
 					<tr>
 						<td class="label">내용</td>
@@ -35,10 +37,10 @@
 				<div class="bottom">
 					<a href="${pageContext.request.contextPath }/board">글목록</a>
 					<c:if test='${authUser.no == viewvo.writerNo }'>
-						<a href="${pageContext.request.contextPath }/board/update">글수정</a>
+						<a href="${pageContext.request.contextPath }/board/update/${boardno}">글수정</a>
 					</c:if>
 					<c:if test='${not empty authUser }'>
-						<a href="${pageContext.request.contextPath }/board?a=replyform&no=${param.no}">답글쓰기</a>
+						<a href="${pageContext.request.contextPath }/board/reply/${boardno}">답글쓰기</a>
 					</c:if>
 				</div>
 			</div>
