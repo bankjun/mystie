@@ -72,4 +72,7 @@ public class BoardController{
 		
 		return"redirect:/board/view{"+no+"}";
 	}
+	// REPLY FORM
+	
+	// REPLY 
 }

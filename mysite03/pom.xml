@@ -51,6 +51,13 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
+		<!-- jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.13.4.1</version>
+		</dependency>
+
 
 		<!--Spring Context, 원래는 이거 하나만 가져오면 그거와 의존관계에 있는 라이브러리들을 같이 가져옴, 근데 이건보여주기위해 다른것도 명시함-->
 		<dependency>
@@ -59,7 +66,7 @@
 			<version>${org.springframework-version}</version>
 			<!--<version>5.3.26</version>-->
 
-		<!-- JCL 제외 -->
+			<!-- JCL 제외 -->
 			<exclusions>
 				<exclusion>
 					<groupId>org.springframework</groupId>
