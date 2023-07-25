@@ -1,0 +1,37 @@
+com.bitacademy.mysite.config.app
+com.bitacademy.mysite.config.web
+[src/main/java]
+	com
+	 |--- bitacademy
+	 |	|--- mysite	
+	 |	|	|--- config
+	 |	|	|	|--- AppConfig.java
+	 |	|	|	|--- WebConfig.java
+	 |	|	|--- app
+	 |	|	|     |--- DBConfig.java
+	 |	|	|     |--- MyBatisConfig.java
+	 |	|	|--- web
+	 |	|	|     |--- MvcConfig.java
+	 |	|	|     |--- SecurityConfig.java
+	 |	|	|     |--- MessageResourceConfig.java
+	 |	|	|     |--- FileuploadConfig.java
+	 |	|	|--- controller
+	 |	|	|--- service
+	 |	|	|--- repository
+
+[src/main/resources] -> 
+	com
+	 |--- bitacademy
+	 |		|--- mysite
+	 |		|		|--- app
+	 |		|		|	  |--- jdbc.properties
+	 |		|		|	  |--- mybatis
+	 |		|		|	  	|--- configuration.xml
+	 |		|		|	  	|--- mappers
+	 |		|		|	  	|	|--- board.xml
+	 |		|		|	  	|	|--- user.xml
+	 |		|		|--- web
+	 |		|		|      |--- fileupload.properties
+	 |		|		|      |--- messages
+	 |		|		|      |	|--- messages_ko.properties
+	 |		|		|      |    |--- messages_en.properties
