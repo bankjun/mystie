@@ -69,6 +69,14 @@ public class UserController {
 
 		return "redirect:/user/update";
 	}
+	
+	@RequestMapping("/auth")
+	public void auth() {
+	}
+	
+	@RequestMapping("/logout")
+	public void logout() {
+	}
 }
 /////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////SECURITY로 인해 사라진 메소드 및 코드들////////////////////////////////

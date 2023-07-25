@@ -1,5 +1,6 @@
 com.bitacademy.mysite.config.app
 com.bitacademy.mysite.config.web
+
 [src/main/java]
 	com
 	 |--- bitacademy
