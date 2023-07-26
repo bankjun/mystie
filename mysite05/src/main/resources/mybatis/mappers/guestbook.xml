@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 안에 sql을 만들면됨 -->
+<mapper namespace="guestbook">
+						  <!-- return되는 타입 -->
+	<select id="findAll" resultType="guestbookvo">
+		<!-- contentdata, <, > 이런 걸 문자로 인식하게 해줌 -->
+		<![CDATA[
+			select no,
+				   name, 
+			   	   password, 
+			   	   message, 
+			   	   reg_date as regDate
+		  	  from guestbook
+	  	  order by no desc
+	  	]]>
+	</select>
+	
+	<insert id="insert" parameterType="guestbookvo">
+		<![CDATA[
+		insert
+		  into guestbook
+		values (null, #{name }, #{password }, #{message }, now())
+		]]>
+	</insert>
+	
+	<delete id="deleteByNoAndPassword" parameterType= "map">
+		<![CDATA[
+			delete from guestbook where no= #{no } and password= #{password } 
+		]]>
+	</delete>
+</mapper>

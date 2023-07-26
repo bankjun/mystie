@@ -23,18 +23,52 @@
 	</properties>
 	
 	<dependencies>
-		<!--springboot basic Dependency-->
+		<!--springboot basic Dependency 예는 어차피 스ㅏㅌ터가 의존하고 있어서 없애도됨-->
+		
+		<!--Springboot Dev Tools: Live Reload-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
+		
 		<!--Springboot Web Starter-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<scope>test</scope>
 		</dependency>
-
+		
+		<!--Springboot AOP Starter-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		
+		<!-- MyBatis Starter-->
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		
+		<!-- MariaDB JDBC, 어떤 DB를 쓰는지 모르니까 이건 생략불가 -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<!--버전 안적으면 최신꺼 씀-->
+		</dependency>		
+		
+		<!-- JSTL -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		
+		<!-- Tomcat Jasper -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		
 		<!--Spring Boot Test Integration-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

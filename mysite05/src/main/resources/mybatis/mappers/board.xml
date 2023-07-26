@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 안에 sql을 만들면됨 -->
+<mapper namespace="board">
+						  <!-- return되는 타입 -->
+	<select id="findAll" resultType="boardvo">
+		<![CDATA[
+			select a.title, 
+				   b.name as writer, 
+				   a.hit, 
+				   a.reg_date as regDate, 
+				   a.depth,
+				   a.no,
+				   b.no as writerNo 
+			  from board a, user b 
+			 where a.user_no = b.no 
+		  order by a.g_no desc, a.o_no desc
+	  	]]>
+	</select>
+	
+	<select id="findByBoardNo" resultType="boardvo" parameterType="Long">
+		<![CDATA[
+			select a.no,
+				   a.title,
+			       a.contents as content, 
+			       a.g_no as groupNo, 
+			       a.o_no as orderNo, 
+			       a.depth, 
+			       b.no as writerNo
+			  from board a, user b 
+			 where a.user_no = b.no 
+			   and a.no =#{no}
+		]]>
+	</select>
+	
+	<insert id="writeContent" parameterType="boardvo">
+		<![CDATA[
+			insert into board 
+			     values (null, #{title}, #{content}, 0, now(),
+					    ((select max(a.g_no) from board a)+1), 1, 0, #{writerNo})
+		]]>
+	</insert>
+	
+	<delete id="deleteByNoAndPassword" parameterType="map">
+		<![CDATA[
+			delete a 
+		      from board a, user b
+			 where a.user_no = b.no
+			   and a.no = #{no} 
+		       and b.password = password(#{password})
+		]]>
+	</delete>
+	
+	<update id="updateByBoardNo" parameterType="boardvo">
+		<![CDATA[
+			update board 
+			   set title = #{title}, contents = #{content} 
+			 where no= #{no}
+		]]>
+	</update>
+	
+	<update id="replyContent" parameterType="boardvo">
+		<![CDATA[
+			update board 
+			   set o_no = o_no+1
+			 where g_no = #{groupNo}
+			   and o_no >= #{orderNo}
+		]]>
+	</update>
+	
+	<insert id="addReplyContent" parameterType="boardvo">
+		<![CDATA[
+			insert into board
+				       values (null, #{title}, #{content}, 0, now(), #{groupNo}, #{orderNo}, #{depth}+1, #{writerNo} )
+		]]>
+	</insert>
+	
+	<update id="updateHit" parameterType="Long">
+		<![CDATA[	
+			update board 
+			   set hit=(hit+1) 
+			 where no= #{no}
+		]]> 
+	</update>
+	
+
+</mapper>
