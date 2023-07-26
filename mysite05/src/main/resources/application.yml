@@ -9,9 +9,15 @@ spring:
          enabled: true
    # mvc
    mvc:
+      static-path-pattern: /assets/**
+      throw-exception-if-no-handler-found: true
       view:
          prefix: /WEB-INF/views/
          suffix: .jsp
+   # web
+   web:
+      resources:
+         static-locations: classpath:/assets/ #정적자원에 대한 요청의 경로
    # aop
    aop:
       auto: true

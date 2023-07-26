@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 @ControllerAdvice // 이걸 알아보는건 컨테이너임, 그래서 컨테이너가 알아볼 수 있도록 설정해줘야함
 public class GlobalExceptionHandler {
@@ -15,6 +16,11 @@ public class GlobalExceptionHandler {
 	
 	@ExceptionHandler(Exception.class)
 	public String handlerException(Model model, Exception ex) {
+		// 1. 404 Error 처리
+		if(ex instanceof NoHandlerFoundException) {
+			return "error/404";
+		}
+		
 		// 1. 로깅
 		StringWriter errors = new StringWriter();
 		
